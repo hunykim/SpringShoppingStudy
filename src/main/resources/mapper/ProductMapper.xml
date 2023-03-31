@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.shopstudy.repository.ProductRepository">
+
+    <select id="findAll" resultType="com.shopstudy.domain.ProductDto">
+        select * from product
+    </select>
+
+    <select id="findBy" resultType="com.shopstudy.domain.ProductDto">
+        select * from product
+        where product_id = #{productId}
+    </select>
+
+    <insert id="save" parameterType="com.shopstudy.domain.ProductDto">
+        insert into product (product_name,product_price,product_type,shipping_cost,photo)
+        values (#{productName},#{productPrice},#{productType},#{shippingCost}, #{photo})
+    </insert>
+
+</mapper>

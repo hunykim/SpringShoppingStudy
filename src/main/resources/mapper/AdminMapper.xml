@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.shopstudy.repository.AdminRepository">
+
+    <select id="findAll" resultType="com.shopstudy.domain.UserDto">
+        select * from user
+    </select>
+
+    <select id="getListCount" resultType="int">
+        select count(*) from user
+    </select>
+    
+    <select id="listByDay" resultType="com.shopstudy.domain.UserDto">
+        select * from user
+        where 1=1
+        <if test='startDt != null and startDt != "" and endDt != null and endDt != ""'>
+            AND DATE_FORMAT(create_at, '%Y-%m-%d') BETWEEN date(#{startDt}) AND date(#{endDt})
+        </if>
+    </select>
+
+    <select id="salesByDay" resultType="Map">
+        SELECT product_type, SUM(product_price*order_cnt) AS sales, DATE_FORMAT(order_date, '%Y-%m-%d') AS date
+        FROM product p
+            INNER JOIN orders o
+        ON o.product_id = p.product_id
+        WHERE o.status = '배송완료'
+        GROUP BY product_type, DATE_FORMAT(order_date, '%Y-%m-%d')
+    </select>
+
+    <select id="salesByMonth" resultType="Map">
+        SELECT product_type, SUM(product_price*order_cnt) AS sales, DATE_FORMAT(order_date, '%Y-%m') AS date
+        FROM product p
+            INNER JOIN orders o
+        ON o.product_id = p.product_id
+        WHERE o.status = '배송완료'
+        GROUP BY product_type, DATE_FORMAT(order_date, '%Y-%m')
+    </select>
+
+    <select id="salesByYear" resultType="Map">
+        SELECT product_type, SUM(product_price*order_cnt) AS sales, DATE_FORMAT(order_date, '%Y') AS date
+        FROM product p
+            INNER JOIN orders o
+        ON o.product_id = p.product_id
+        WHERE o.status = '배송완료'
+        GROUP BY product_type, DATE_FORMAT(order_date, '%Y')
+    </select>
+
+</mapper>

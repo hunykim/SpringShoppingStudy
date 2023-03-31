@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.shopstudy.repository.ReviewRepository">
+
+    <select id="findBy" resultType="com.shopstudy.domain.ReviewDto">
+        select *
+        from review
+            where product_id = #{productId}
+    </select>
+
+    <insert id="save" parameterType="com.shopstudy.domain.ReviewDto">
+        insert into review (user_id, user_nickname, product_id, content, review_star, photo,create_at)
+        values (#{userId}, #{nickname},#{productId}, #{content}, #{reviewStar}, #{photo}, now())
+    </insert>
+
+    <update id="update" parameterType="com.shopstudy.domain.ReviewDto">
+
+    </update>
+
+    <update id="delete" parameterType="long">
+        update review set
+        del_type = 'Y',
+        update_at = now()
+        where id = #{id}
+    </update>
+
+
+</mapper>

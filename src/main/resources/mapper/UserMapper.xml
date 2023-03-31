@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.shopstudy.repository.UserRepository">
+
+    <select id="findBy" resultType="com.shopstudy.domain.UserDto">
+        select * from user
+        where id = #{id}
+    </select>
+
+    <select id="userIdChk" resultType="com.shopstudy.domain.UserDto">
+        select email,roles from user
+        where email = #{email}
+    </select>
+
+    <insert id="save" parameterType="com.shopstudy.domain.UserDto">
+        insert into user(user_id,name,nickname,password,email,gender,sign_tab,phone,create_at,roles)
+        values(#{userId},#{name},#{nickname},#{password},#{email},#{gender},#{signTab},#{phone},now(),#{roles})
+    </insert>
+
+    <select id="loginChk" resultType="com.shopstudy.domain.UserDto">
+        select * from user
+        where email = #{email}
+        and password = #{password}
+    </select>
+
+
+</mapper>

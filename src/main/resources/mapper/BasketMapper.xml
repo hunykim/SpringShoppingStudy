@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.shopstudy.repository.BasketRepository">
+
+    <select id="findBy" resultType="com.shopstudy.domain.BasketDto">
+        select b.id, b.user_id, b.product_id, p.product_name, p.product_price, p.shipping_cost
+        from basket b
+                 inner join product p
+                 on b.product_id = p.product_id
+        where user_id = #{userId}
+    </select>
+
+    <insert id="save" parameterType="com.shopstudy.domain.BasketDto">
+        insert into basket (user_id, product_id)
+        values (#{userId},#{productId})
+    </insert>
+
+    <delete id="delete" parameterType="long">
+        delete from basket
+        where id = #{id}
+    </delete>
+
+</mapper>

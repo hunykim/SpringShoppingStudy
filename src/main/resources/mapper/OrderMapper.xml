@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.shopstudy.repository.OrderRepository">
+
+    <select id="findAll" resultType="com.shopstudy.domain.OrderDto">
+        SELECT o.user_id, o.product_id, p.product_name,p.product_price, o.status, o.order_date, o.update_at
+        FROM orders o
+                 INNER JOIN product p
+                            ON o.product_id = p.product_id
+    </select>
+
+    <select id="findBy" resultType="com.shopstudy.domain.OrderDto">
+        SELECT o.user_id, o.product_id, p.product_name,p.product_price, o.status, o.order_date, o.update_at
+        FROM orders o
+                 INNER JOIN product p
+                            ON o.product_id = p.product_id
+        where o.user_id = #{userId}
+    </select>
+
+    <insert id="save" parameterType="com.shopstudy.domain.OrderDto">
+        insert into orders (product_id,user_id,status,order_date)
+        values (#{productId},#{userId},#{status}, now())
+    </insert>
+
+    <update id="update" parameterType="com.shopstudy.domain.OrderDto">
+        update orders set
+            status = #{status},
+            update_at = now()
+        where 1=1
+        and user_id = #{userId}
+        and product_id = #{productId}
+    </update>
+
+</mapper>
