@@ -25,7 +25,9 @@
             INNER JOIN orders o
         ON o.product_id = p.product_id
         WHERE o.status = '배송완료'
+          AND DATE_FORMAT(o.order_date, '%Y-%m-%d') BETWEEN DATE_ADD(NOW(), INTERVAL -1 WEEK) AND NOW()
         GROUP BY product_type, DATE_FORMAT(order_date, '%Y-%m-%d')
+        ORDER BY DATE_FORMAT(o.order_date, '%Y-%m-%d') ASC
     </select>
 
     <select id="salesByMonth" resultType="Map">
@@ -34,7 +36,9 @@
             INNER JOIN orders o
         ON o.product_id = p.product_id
         WHERE o.status = '배송완료'
+          AND DATE_FORMAT(o.order_date, '%Y-%m-%d') BETWEEN DATE_ADD(NOW(), INTERVAL -3 month) AND NOW()
         GROUP BY product_type, DATE_FORMAT(order_date, '%Y-%m')
+        ORDER BY DATE_FORMAT(o.order_date, '%Y-%m') ASC
     </select>
 
     <select id="salesByYear" resultType="Map">
@@ -43,7 +47,11 @@
             INNER JOIN orders o
         ON o.product_id = p.product_id
         WHERE o.status = '배송완료'
+        <if test='year != null and year != ""'>
+          AND DATE_FORMAT(o.order_date, '%Y') = #{year}
+        </if>
         GROUP BY product_type, DATE_FORMAT(order_date, '%Y')
+        ORDER BY DATE_FORMAT(o.order_date, '%Y') ASC
     </select>
 
 </mapper>

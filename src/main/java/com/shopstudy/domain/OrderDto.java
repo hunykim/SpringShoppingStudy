@@ -17,4 +17,6 @@ public class OrderDto {
     private Date orderDt;
     private Date updateAt;
 
+
+
 }

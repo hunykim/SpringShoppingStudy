@@ -6,10 +6,7 @@ import com.shopstudy.service.AdminService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +46,7 @@ public class AdminController {
      * 일자별,월별 매출
      */
     @GetMapping("/salesBy{type}")
-    public List<Map<String, Object>> salesByDay(@PathVariable String type) {
+    public List<Map<String, Object>> salesByDay(@PathVariable String type, @RequestParam(required = false) String year) {
 
         List<Map<String, Object>> result = new ArrayList<>();
 
@@ -58,7 +55,7 @@ public class AdminController {
         } else if(type.equals("Month")){
             result = adminService.salesByMonth();
         } else if(type.equals("Year")){
-            result = adminService.salesByYear();
+            result = adminService.salesByYear(year);
         }
         return result;
     }

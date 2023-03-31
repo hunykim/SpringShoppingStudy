@@ -20,7 +20,7 @@ public interface AdminRepository {
 
     List<Map<String, Object>> salesByMonth();
 
-    List<Map<String, Object>> salesByYear();
+    List<Map<String, Object>> salesByYear(String year);
 
 
 }

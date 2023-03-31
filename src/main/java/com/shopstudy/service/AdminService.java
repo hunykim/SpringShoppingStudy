@@ -35,8 +35,8 @@ public class AdminService {
         return adminRepository.salesByMonth();
     }
 
-    public List<Map<String, Object>> salesByYear() {
-        return adminRepository.salesByYear();
+    public List<Map<String, Object>> salesByYear(String year) {
+        return adminRepository.salesByYear(year);
     }
 
 }
