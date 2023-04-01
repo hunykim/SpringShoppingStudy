@@ -46,14 +46,14 @@ public class AdminController {
      * 일자별,월별 매출
      */
     @GetMapping("/salesBy{type}")
-    public List<Map<String, Object>> salesByDay(@PathVariable String type, @RequestParam(required = false) String year) {
+    public List<Map<String, Object>> salesByDay(@PathVariable String type, @RequestParam(required = false) String year, @RequestParam(required = false) String month) {
 
         List<Map<String, Object>> result = new ArrayList<>();
 
         if(type.equals("Day")){
             result = adminService.salesByDay();
         } else if(type.equals("Month")){
-            result = adminService.salesByMonth();
+            result = adminService.salesByMonth(month);
         } else if(type.equals("Year")){
             result = adminService.salesByYear(year);
         }

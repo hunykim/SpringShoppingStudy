@@ -1,6 +1,5 @@
 package com.shopstudy.repository;
 
-import com.shopstudy.domain.OrderDto;
 import com.shopstudy.domain.UserDto;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -18,7 +17,7 @@ public interface AdminRepository {
 
     List<Map<String, Object>> salesByDay();
 
-    List<Map<String, Object>> salesByMonth();
+    List<Map<String, Object>> salesByMonth(String month);
 
     List<Map<String, Object>> salesByYear(String year);
 
