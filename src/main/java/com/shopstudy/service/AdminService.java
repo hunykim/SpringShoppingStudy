@@ -27,8 +27,8 @@ public class AdminService {
         return adminRepository.listByDay(startDt, endDt);
     }
 
-    public List<Map<String, Object>> salesByDay() {
-        return adminRepository.salesByDay();
+    public List<Map<String, Object>> salesByDay(String month) {
+        return adminRepository.salesByDay(month);
     }
 
     public List<Map<String, Object>> salesByMonth(String month) {

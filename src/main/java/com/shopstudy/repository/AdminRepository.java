@@ -15,7 +15,7 @@ public interface AdminRepository {
 
     List<UserDto> listByDay(String startDt, String endDt);
 
-    List<Map<String, Object>> salesByDay();
+    List<Map<String, Object>> salesByDay(String month);
 
     List<Map<String, Object>> salesByMonth(String month);
 
