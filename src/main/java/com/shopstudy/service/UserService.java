@@ -17,6 +17,14 @@ public class UserService implements UserDetailsService {
 
     public final UserRepository userRepository;
 
+    public List<UserDto> listAll() {
+        return userRepository.findAll();
+    }
+
+    public int listCount() {
+        return userRepository.getListCount();
+    }
+
     public UserDto userInfo(long id) {
         return userRepository.findBy(id);
     }

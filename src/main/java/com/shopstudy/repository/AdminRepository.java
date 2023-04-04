@@ -9,17 +9,16 @@ import java.util.Map;
 @Mapper
 public interface AdminRepository {
 
-    List<UserDto> findAll();
-
-    Integer getListCount();
 
     List<UserDto> listByDay(String startDt, String endDt);
 
-    List<Map<String, Object>> salesByDay(String month);
+    List<Map<String, Object>> salesByDay(String startDt, String endDt);
 
-    List<Map<String, Object>> salesByMonth(String month);
+    List<Map<String, Object>> salesByDayHour(String startDt, String endDt);
 
-    List<Map<String, Object>> salesByYear(String year);
+    List<Map<String, Object>> salesByMonth(String startDt, String endDt);
+
+    List<Map<String, Object>> salesByYear(String startDt, String endDt);
 
 
 }

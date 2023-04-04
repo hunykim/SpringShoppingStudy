@@ -2,14 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.shopstudy.repository.AdminRepository">
-
-    <select id="findAll" resultType="com.shopstudy.domain.UserDto">
-        select * from user
-    </select>
-
-    <select id="getListCount" resultType="int">
-        select count(*) from user
-    </select>
     
     <select id="listByDay" resultType="com.shopstudy.domain.UserDto">
         select * from user
@@ -19,26 +11,28 @@
         </if>
     </select>
 
+    <select id="salesByDayHour" resultType="Map">
+        SELECT product_type, SUM(product_price*order_cnt) AS sales, DATE_FORMAT(order_date, '%Y-%m-%d %H') AS date
+        FROM product p
+        INNER JOIN orders o
+        ON o.product_id = p.product_id
+        WHERE o.status = '배송완료'
+        <if test='startDt != null and startDt != "" and endDt != null and endDt != ""'>
+            AND DATE_FORMAT(order_date, '%Y-%m-%d') BETWEEN date(#{startDt}) AND date(#{endDt})
+        </if>
+        GROUP BY product_type, DATE_FORMAT(order_date, '%Y-%m-%d %H')
+        ORDER BY DATE_FORMAT(o.order_date, '%Y-%m-%d %H') ASC
+    </select>
+
     <select id="salesByDay" resultType="Map">
         SELECT product_type, SUM(product_price*order_cnt) AS sales, DATE_FORMAT(order_date, '%Y-%m-%d') AS date
         FROM product p
             INNER JOIN orders o
         ON o.product_id = p.product_id
         WHERE o.status = '배송완료'
-        <choose>
-            <when test='month == "1"'>
-                AND DATE_FORMAT(o.order_date, '%Y-%m-%d') BETWEEN DATE_ADD(NOW(), INTERVAL -1 month) AND NOW()
-            </when>
-            <when test='month == "3"'>
-                AND DATE_FORMAT(o.order_date, '%Y-%m-%d') BETWEEN DATE_ADD(NOW(), INTERVAL -3 month) AND NOW()
-            </when>
-            <when test='month == "6"'>
-                AND DATE_FORMAT(o.order_date, '%Y-%m-%d') BETWEEN DATE_ADD(NOW(), INTERVAL -6 month) AND NOW()
-            </when>
-            <otherwise>
-                AND DATE_FORMAT(o.order_date, '%Y-%m-%d') BETWEEN DATE_ADD(NOW(), INTERVAL -1 WEEK) AND NOW()
-            </otherwise>
-        </choose>
+        <if test='startDt != null and startDt != "" and endDt != null and endDt != ""'>
+            AND DATE_FORMAT(order_date, '%Y-%m-%d') BETWEEN date(#{startDt}) AND date(#{endDt})
+        </if>
         GROUP BY product_type, DATE_FORMAT(order_date, '%Y-%m-%d')
         ORDER BY DATE_FORMAT(o.order_date, '%Y-%m-%d') ASC
     </select>
@@ -49,19 +43,9 @@
             INNER JOIN orders o
         ON o.product_id = p.product_id
         WHERE o.status = '배송완료'
-        <choose>
-            <when test='month == "1"'>
-                AND DATE_FORMAT(o.order_date, '%Y-%m-%d') BETWEEN DATE_ADD(NOW(), INTERVAL -1 month) AND NOW()
-            </when>
-            <when test='month == "3"'>
-                AND DATE_FORMAT(o.order_date, '%Y-%m-%d') BETWEEN DATE_ADD(NOW(), INTERVAL -3 month) AND NOW()
-            </when>
-            <when test='month == "6"'>
-                AND DATE_FORMAT(o.order_date, '%Y-%m-%d') BETWEEN DATE_ADD(NOW(), INTERVAL -6 month) AND NOW()
-            </when>
-            <otherwise>
-            </otherwise>
-        </choose>
+        <if test='startDt != null and startDt != "" and endDt != null and endDt != ""'>
+            AND DATE_FORMAT(order_date, '%Y-%m-%d') BETWEEN date(#{startDt}) AND date(#{endDt})
+        </if>
         GROUP BY product_type, DATE_FORMAT(order_date, '%Y-%m')
         ORDER BY DATE_FORMAT(o.order_date, '%Y-%m') ASC
     </select>
@@ -72,8 +56,8 @@
             INNER JOIN orders o
         ON o.product_id = p.product_id
         WHERE o.status = '배송완료'
-        <if test='year != null and year != ""'>
-          AND DATE_FORMAT(o.order_date, '%Y') = #{year}
+        <if test='startDt != null and startDt != "" and endDt != null and endDt != ""'>
+            AND DATE_FORMAT(order_date, '%Y-%m-%d') BETWEEN date(#{startDt}) AND date(#{endDt})
         </if>
         GROUP BY product_type, DATE_FORMAT(order_date, '%Y')
         ORDER BY DATE_FORMAT(o.order_date, '%Y') ASC

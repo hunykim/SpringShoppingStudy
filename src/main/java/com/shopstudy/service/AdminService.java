@@ -15,28 +15,25 @@ public class AdminService {
 
     private final AdminRepository adminRepository;
 
-    public List<UserDto> listAll() {
-        return adminRepository.findAll();
-    }
-
-    public int listCount() {
-        return adminRepository.getListCount();
-    }
 
     public List<UserDto> listByDay(String startDt, String endDt) {
         return adminRepository.listByDay(startDt, endDt);
     }
 
-    public List<Map<String, Object>> salesByDay(String month) {
-        return adminRepository.salesByDay(month);
+    public List<Map<String, Object>> salesByDay(String startDt, String endDt) {
+        return adminRepository.salesByDay(startDt, endDt);
     }
 
-    public List<Map<String, Object>> salesByMonth(String month) {
-            return adminRepository.salesByMonth(month);
+    public List<Map<String, Object>> salesByDayHour(String startDt, String endDt) {
+        return adminRepository.salesByDayHour(startDt, endDt);
     }
 
-    public List<Map<String, Object>> salesByYear(String year) {
-        return adminRepository.salesByYear(year);
+    public List<Map<String, Object>> salesByMonth(String startDt, String endDt) {
+            return adminRepository.salesByMonth(startDt, endDt);
+    }
+
+    public List<Map<String, Object>> salesByYear(String startDt, String endDt) {
+        return adminRepository.salesByYear(startDt, endDt);
     }
 
 }
