@@ -21,6 +21,11 @@
         where email = #{email}
     </select>
 
+    <select id="findByUserId" resultType="com.shopstudy.domain.UserDto">
+        select * from user
+        where email = #{email}
+    </select>
+
     <insert id="save" parameterType="com.shopstudy.domain.UserDto">
         insert into user(user_id,name,nickname,password,email,gender,sign_tab,phone,create_at,roles)
         values(#{userId},#{name},#{nickname},#{password},#{email},#{gender},#{signTab},#{phone},now(),#{roles})

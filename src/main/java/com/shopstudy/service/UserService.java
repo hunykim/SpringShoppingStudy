@@ -1,6 +1,7 @@
 package com.shopstudy.service;
 
 import com.shopstudy.domain.UserDto;
+import com.shopstudy.domain.UserLoginDto;
 import com.shopstudy.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -55,7 +56,7 @@ public class UserService implements UserDetailsService {
     }
 
 
-    public UserDto loginChk(UserDto user) {
+    public UserDto loginChk(UserLoginDto user) {
         return userRepository.loginChk(user);
     }
 

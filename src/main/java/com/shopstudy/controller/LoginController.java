@@ -2,13 +2,20 @@ package com.shopstudy.controller;
 
 import com.shopstudy.domain.UserDto;
 import com.shopstudy.config.jwt.JwtTokenProvider;
+import com.shopstudy.domain.UserLoginDto;
 import com.shopstudy.service.OAuthService;
+import com.shopstudy.service.SHA256;
 import com.shopstudy.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import java.security.NoSuchAlgorithmException;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -21,15 +28,29 @@ public class LoginController {
 
     // jwt를 이용한 로그인
     @PostMapping("/login")
-    public String login(@RequestBody UserDto user) {
+    public ResponseEntity<Map<String,Object>> login(@RequestBody UserLoginDto user, HttpServletResponse response) throws NoSuchAlgorithmException {
+        SHA256 sha256 = new SHA256();
+        String password = sha256.encrypt(user.getPassword());
+        user.setPassword(password);
 
-        user = userService.loginChk(user);
-        if(user == null){
-            return "회원정보가 없습니다.";
+        Map<String,Object> map = new HashMap<>();
+
+        UserDto userInfo = userService.loginChk(user);
+
+        if(userInfo == null){
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
         } else{
-            return jwtTokenProvider.createToken(user.getUsername(), Collections.singletonList(user.getRoles()));
+            String token = jwtTokenProvider.createToken(userInfo.getUsername(), Collections.singletonList(userInfo.getRoles()));
+            map.put("user", userInfo);
+            map.put("token", token);
+
+            response.setHeader("X-AUTH-TOKEN",token);
+
+            return new ResponseEntity<>(map, HttpStatus.OK);
         }
     }
+
+
 
     @GetMapping("/kakao-login")
     public String kakaoCallback(@RequestParam String code) {
@@ -48,7 +69,7 @@ public class LoginController {
 
             if(user.getEmail() != null) {
                 String token = jwtTokenProvider.createToken(user.getUsername(), Collections.singletonList(user.getRoles()));
-                Authentication tokenInfo = jwtTokenProvider.getAuthentication(token);
+                String tokenInfo = jwtTokenProvider.getUserPk(token);
                 result = "가입된 계정이 있습니다. 메인페이지로 리턴// "+ tokenInfo;
             } else{
                 result = "가입된 계정이 없습니다. 회원가입 페이지로 리턴";

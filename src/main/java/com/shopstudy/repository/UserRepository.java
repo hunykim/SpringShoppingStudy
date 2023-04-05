@@ -1,6 +1,7 @@
 package com.shopstudy.repository;
 
 import com.shopstudy.domain.UserDto;
+import com.shopstudy.domain.UserLoginDto;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -19,8 +20,8 @@ public interface UserRepository {
 
     UserDto userIdChk(String email);
 
-    UserDto loginChk(UserDto user);
+    UserDto loginChk(UserLoginDto user);
 
-    Optional<UserDto> findByUserId(String userId);
+    Optional<UserDto> findByUserId(String email);
 
 }
