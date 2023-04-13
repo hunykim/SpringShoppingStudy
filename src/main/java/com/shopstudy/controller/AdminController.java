@@ -22,6 +22,22 @@ public class AdminController {
 
     private final AdminService adminService;
 
+    @ApiOperation(value = "총 회원목록")
+    @GetMapping("/listAll")
+    public ResponseEntity<?> listAll() {
+
+        List<UserDto> listAll = adminService.listAll();
+
+        return ResponseEntity.ok(listAll) ;
+    }
+
+    @ApiOperation(value = "총 회원수")
+    @GetMapping("/listCount")
+    public ResponseEntity<Integer> listCount() {
+        int listCnt = adminService.listCount();
+        return new ResponseEntity<>(listCnt, HttpStatus.OK) ;
+    }
+
     @ApiImplicitParams({
             @ApiImplicitParam(name = "startDt", value = "yyyy-mm-dd", required = false, dataType = "String", paramType = "query")
             , @ApiImplicitParam(name = "endDt", value = "yyyy-mm-dd", required = false, dataType = "String", paramType = "query")

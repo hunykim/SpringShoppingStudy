@@ -3,14 +3,6 @@
 
 <mapper namespace="com.shopstudy.repository.UserRepository">
 
-    <select id="findAll" resultType="com.shopstudy.domain.UserDto">
-        select * from user
-    </select>
-
-    <select id="getListCount" resultType="int">
-        select count(*) from user
-    </select>
-
     <select id="findBy" resultType="com.shopstudy.domain.UserDto">
         select * from user
         where id = #{id}

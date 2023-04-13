@@ -15,6 +15,13 @@ public class AdminService {
 
     private final AdminRepository adminRepository;
 
+    public List<UserDto> listAll() {
+        return adminRepository.findAll();
+    }
+
+    public int listCount() {
+        return adminRepository.getListCount();
+    }
 
     public List<UserDto> listByDay(String startDt, String endDt) {
         return adminRepository.listByDay(startDt, endDt);

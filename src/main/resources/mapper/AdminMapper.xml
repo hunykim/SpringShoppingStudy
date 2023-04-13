@@ -2,7 +2,15 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.shopstudy.repository.AdminRepository">
-    
+
+    <select id="findAll" resultType="com.shopstudy.domain.UserDto">
+        select * from user
+    </select>
+
+    <select id="getListCount" resultType="int">
+        select count(*) from user
+    </select>
+
     <select id="listByDay" resultType="com.shopstudy.domain.UserDto">
         select * from user
         where 1=1

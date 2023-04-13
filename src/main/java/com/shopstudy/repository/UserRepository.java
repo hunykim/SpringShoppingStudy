@@ -10,10 +10,6 @@ import java.util.Optional;
 @Mapper
 public interface UserRepository {
 
-    List<UserDto> findAll();
-
-    Integer getListCount();
-
     void save(UserDto user);
 
     UserDto findBy(long id);

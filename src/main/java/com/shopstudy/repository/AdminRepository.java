@@ -9,6 +9,9 @@ import java.util.Map;
 @Mapper
 public interface AdminRepository {
 
+    List<UserDto> findAll();
+
+    Integer getListCount();
 
     List<UserDto> listByDay(String startDt, String endDt);
 
