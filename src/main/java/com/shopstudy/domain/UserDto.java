@@ -25,6 +25,7 @@ public class UserDto implements UserDetails {
     private Date createAt;
     private Date updateAt;
     private String roles;
+    private String ban;
 
     private String startDt;
     private String endDt;

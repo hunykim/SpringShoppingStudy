@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.shopstudy.repository.BoardRepository">
+
+    <select id="findBy" resultType="com.shopstudy.domain.BoardDto">
+        select * from board
+        where email = #{email}
+    </select>
+
+    <select id="listAll" resultType="com.shopstudy.domain.BoardDto">
+        select * from board
+    </select>
+
+    <insert id="save" parameterType="com.shopstudy.domain.BoardDto">
+        insert into user(title,content,email,name,create_at)
+        values(#{title},#{content},#{email},#{name},now())
+    </insert>
+
+    <update id="delete" parameterType="long">
+        update board set
+            del_type = 'Y',
+            update_at = now()
+        where board_id = #{boardId}
+    </update>
+
+
+</mapper>
