@@ -13,8 +13,8 @@ public class BoardService {
 
     private final BoardRepository boardRepository;
 
-    public void save(BoardDto board) {
-        boardRepository.save(board);
+    public void save(BoardDto boardDto) {
+        boardRepository.save(boardDto);
     }
 
     public List<BoardDto> listBy(String email) {
@@ -27,6 +27,10 @@ public class BoardService {
 
     public void delete(long boardId) {
         boardRepository.delete(boardId);
+    }
+
+    public void update(BoardDto boardDto) {
+        boardRepository.update(boardDto);
     }
 
 }

@@ -8,7 +8,7 @@ import java.util.List;
 @Mapper
 public interface BoardRepository {
 
-    void save(BoardDto board);
+    void save(BoardDto boardDto);
 
     List<BoardDto> findBy(String email);
 
@@ -16,7 +16,7 @@ public interface BoardRepository {
 
     void delete(long boardId);
 
-
+    void update(BoardDto boardDto);
 
 
 }

@@ -23,8 +23,8 @@ public class AdminController {
     private final AdminService adminService;
 
     @ApiOperation(value = "총 회원목록")
-    @GetMapping("/listAll")
-    public ResponseEntity<?> listAll() {
+    @GetMapping("/userList")
+    public ResponseEntity<?> userList() {
 
         List<UserDto> listAll = adminService.listAll();
 
@@ -32,8 +32,8 @@ public class AdminController {
     }
 
     @ApiOperation(value = "총 회원수")
-    @GetMapping("/listCount")
-    public ResponseEntity<Integer> listCount() {
+    @GetMapping("/userCount")
+    public ResponseEntity<Integer> userCount() {
         int listCnt = adminService.listCount();
         return new ResponseEntity<>(listCnt, HttpStatus.OK) ;
     }
@@ -43,8 +43,8 @@ public class AdminController {
             , @ApiImplicitParam(name = "endDt", value = "yyyy-mm-dd", required = false, dataType = "String", paramType = "query")
     })
     @ApiOperation(value = "회원가입 날짜별 회원목록")
-    @GetMapping("/listByDay")
-    public ResponseEntity<List<UserDto>> listByDay(String startDt, String endDt) {
+    @GetMapping("/userByDate")
+    public ResponseEntity<List<UserDto>> userByDate(String startDt, String endDt) {
         return new ResponseEntity<>(adminService.listByDay(startDt, endDt), HttpStatus.OK);
     }
 
@@ -56,7 +56,7 @@ public class AdminController {
     })
     @ApiOperation(value = "일자별,월별,연도별 매출목록")
     @GetMapping("/salesBy{type}")
-    public ResponseEntity<List<Map<String, Object>>> salesByDay(@PathVariable String type, String startDt, String endDt) {
+    public ResponseEntity<List<Map<String, Object>>> salesByDate(@PathVariable String type, String startDt, String endDt) {
 
         List<Map<String, Object>> result = new ArrayList<>();
 
