@@ -12,7 +12,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Collections;
 import java.util.HashMap;
@@ -78,25 +80,37 @@ public class UserController {
 
         System.out.println("userInfo====" + userInfo);
         String email = String.valueOf(userInfo.get("email"));
+        String name = String.valueOf(userInfo.get("name"));
 
         String result = "";
 
-        if(email == null) {
-            result = "이메일이 없습니다.";
-        }else{
-            UserDto user = userService.userIdChk(email);
+        // https://kauth.kakao.com/oauth/authorize?client_id=6f7dba6b2f23512fc5f06f113f9389cf&redirect_uri=http://localhost:8080/kakao-login&response_type=code
 
-            if(user.getEmail() != null) {
-                String token = jwtTokenProvider.createToken(user.getUsername(), Collections.singletonList(user.getRoles()));
-                String tokenInfo = jwtTokenProvider.getUserPk(token);
-                result = "가입된 계정이 있습니다. 메인페이지로 리턴// "+ tokenInfo;
-            } else{
-                result = "가입된 계정이 없습니다. 회원가입 페이지로 리턴";
-            }
+        UserDto user = userService.userIdChk(email);
 
+        if(user.getEmail() != null) {
+//            String token = jwtTokenProvider.createToken(user.getUsername(), Collections.singletonList(user.getRoles()));
+
+            result = "가입된 계정이 있습니다. 메인페이지로 리턴// ";
+        } else{
+
+            result = "가입된 계정이 없습니다. 회원가입 페이지로 리턴";
         }
 
         return result;
     }
+
+
+    @PostMapping(value = "/kakaoLogout")
+    public String kakaoLogout(HttpServletRequest resquest) throws IOException {
+
+        String accessToken = resquest.getHeader("Authorization");
+
+        oAuthService.getUserLogout(accessToken);
+
+
+        return "로그아웃 성공";
+    }
+
 
 }

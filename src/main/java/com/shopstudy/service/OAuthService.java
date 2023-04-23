@@ -31,7 +31,7 @@ public class OAuthService {
             StringBuilder sb = new StringBuilder();
             sb.append("grant_type=authorization_code");
             sb.append("&client_id=6f7dba6b2f23512fc5f06f113f9389cf"); // TODO REST_API_KEY 입력
-            sb.append("&redirect_uri=http://127.0.0.1:8080/kakao-login"); // TODO 인가코드 받은 redirect_uri 입력
+            sb.append("&redirect_uri=http://localhost:8080/kakao-login"); // TODO 인가코드 받은 redirect_uri 입력
             sb.append("&code=" + code);
             bw.write(sb.toString());
             bw.flush();
@@ -113,7 +113,7 @@ public class OAuthService {
             }
             String nickname = element.getAsJsonObject().get("properties").getAsJsonObject().get("nickname").getAsString();
 
-            userInfo.put("nickname", nickname);
+            userInfo.put("name", nickname);
             userInfo.put("email", email);
 
             br.close();
@@ -123,6 +123,20 @@ public class OAuthService {
         }
 
         return userInfo;
+    }
+
+    public void getUserLogout(String accessToken) throws IOException {
+
+        String reqURL = "https://kapi.kakao.com/v1/user/logout";
+
+        URL url = new URL(reqURL);
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+
+        conn.setRequestMethod("POST");
+        conn.setDoOutput(true);
+        conn.setRequestProperty("Authorization", accessToken);
+
+        conn.getResponseCode();
 
     }
 
